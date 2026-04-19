@@ -144,7 +144,7 @@
   .top-grid { grid-template-columns: 1fr; gap: 20px; }
   .big-image { height: 240px; }
 
-  .info h1          { font-size: 18px; }
+  .info h1          { font-size: 26px; }
   .info p.desc      { max-width: 100%; }
   .price-row .big   { font-size: 26px; }
 
@@ -156,7 +156,7 @@
 
   /* ── Gallery ──────────────────────────────────────────────────── */
   .gallery     { padding: 24px 0 44px; }
-  .gallery h2  { font-size: 16px; margin-bottom: 16px; }
+  .gallery h2  { font-size: 13px; margin-bottom: 16px; }
   .gallery-grid {
     grid-template-columns: 1fr 1fr;
     grid-template-rows: 130px 130px 130px;
@@ -166,7 +166,7 @@
 
   /* ── Terms ────────────────────────────────────────────────────── */
   .terms { padding: 28px 20px; margin-bottom: 44px; }
-  .terms h2 { font-size: 15px; margin-bottom: 16px; }
+  .terms h2 { font-size: 13px; margin-bottom: 16px; }
   .terms-grid { grid-template-columns: 1fr; gap: 20px; }
   /* tabs become a horizontal scroll row */
   .terms-tabs {
@@ -179,12 +179,12 @@
   /* ── Feedback ─────────────────────────────────────────────────── */
   .feedback      { padding: 0 0 44px; }
   .feedback-grid { grid-template-columns: 1fr; gap: 24px; }
-  .feedback h2   { font-size: 16px; }
+  .feedback h2   { font-size: 13px; }
   .fb-cards      { grid-template-columns: 1fr; }
 
   /* ── Similar ──────────────────────────────────────────────────── */
   .similar           { padding: 0 0 44px; }
-  .similar h2        { font-size: 16px; margin-bottom: 16px; }
+  .similar h2        { font-size: 13px; margin-bottom: 16px; }
   .similar-grid      { grid-template-columns: 1fr; }
   .similar .mcard    { padding: 16px; gap: 14px; }
   .similar .mcard .shot { height: 160px; }
@@ -196,7 +196,7 @@
     gap: 28px;
     padding-bottom: 36px;
   }
-  .car-footer .footer-top h2 { font-size: 16px; }
+  .car-footer .footer-top h2 { font-size: 13px; }
   .car-footer .footer-row {
     grid-template-columns: 1fr 1fr;
     gap: 20px 16px;
