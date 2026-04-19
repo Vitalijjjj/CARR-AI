@@ -199,6 +199,45 @@
 /* ===== scroll offsets ===== */
 section[id]{scroll-margin-top:80px}
 
+/* ===== Modal ===== */
+.modal-backdrop{position:fixed;inset:0;background:rgba(10,15,20,0.6);backdrop-filter:blur(5px);display:flex;align-items:center;justify-content:center;z-index:200;padding:20px}
+.modal-box{position:relative;background:#fff;border-radius:var(--radius-lg);padding:40px;width:100%;max-width:440px;box-shadow:0 24px 80px rgba(10,15,20,0.28)}
+.modal-close{position:absolute;top:14px;right:14px;width:32px;height:32px;border-radius:50%;background:var(--soft);display:inline-flex;align-items:center;justify-content:center;opacity:.7;transition:opacity .15s}
+.modal-close:hover{opacity:1}
+.modal-head{margin-bottom:28px}
+.modal-head h3{font-family:var(--display);font-weight:600;font-size:22px;margin-bottom:6px}
+.modal-head p{color:var(--muted);font-size:15px}
+.modal-form{display:flex;flex-direction:column;gap:16px}
+.modal-field{display:flex;flex-direction:column;gap:6px}
+.modal-field label{font-size:13px;color:var(--muted)}
+.modal-field input{border:1px solid var(--line);border-radius:var(--radius-sm);padding:13px 14px;font-family:var(--sans);font-size:15px;font-weight:300;outline:none;transition:border-color .2s;background:#fff;color:var(--ink)}
+.modal-field input:focus{border-color:var(--accent)}
+.modal-err{color:#e03131;font-size:12px}
+.modal-submit{width:100%;justify-content:center;margin-top:4px}
+.modal-sent{text-align:center;padding:20px 0}
+.modal-sent-icon{width:56px;height:56px;border-radius:50%;background:var(--accent);color:#fff;display:flex;align-items:center;justify-content:center;margin:0 auto 20px}
+.modal-sent h3{font-family:var(--display);font-size:22px;margin-bottom:8px}
+.modal-sent p{color:var(--muted);font-size:15px;margin-bottom:24px}
+
+/* ===== Search overlay ===== */
+.search-overlay{position:fixed;inset:0;background:rgba(10,15,20,0.72);backdrop-filter:blur(8px);z-index:200;display:flex;flex-direction:column;align-items:center;padding:72px 20px 40px}
+.search-overlay-close{position:absolute;top:20px;right:20px;width:40px;height:40px;background:rgba(255,255,255,0.12);border-radius:50%;display:inline-flex;align-items:center;justify-content:center;color:#fff;transition:background .2s}
+.search-overlay-close:hover{background:rgba(255,255,255,0.22)}
+.search-box{width:100%;max-width:640px;position:relative;margin-bottom:20px}
+.search-box input{width:100%;background:#fff;border:none;border-radius:var(--radius-pill);padding:16px 50px 16px 24px;font-family:var(--sans);font-size:17px;font-weight:300;outline:none;color:var(--ink)}
+.search-box-icon{position:absolute;right:18px;top:50%;transform:translateY(-50%);opacity:.5;pointer-events:none;display:inline-flex}
+.search-results{width:100%;max-width:640px;display:flex;flex-direction:column;gap:8px;overflow-y:auto;max-height:60vh}
+.search-result{background:#fff;border-radius:var(--radius-md);padding:14px 18px;display:flex;align-items:center;gap:16px;text-decoration:none;color:var(--ink);transition:transform .15s cubic-bezier(.2,.8,.2,1)}
+.search-result:hover{transform:translateX(4px)}
+.search-result-img{width:60px;height:42px;border-radius:var(--radius-sm);background-size:cover;background-position:center;flex-shrink:0}
+.search-result-name{font-size:16px;font-weight:400;margin-bottom:2px}
+.search-result-tag{font-size:13px;color:var(--muted)}
+.search-result-price{margin-left:auto;font-size:15px;color:var(--accent);white-space:nowrap;font-weight:400}
+.search-empty{color:rgba(255,255,255,0.6);font-size:16px;text-align:center;padding:32px}
+
+/* ===== Mobile sticky CTA (hidden on desktop) ===== */
+.sticky-cta{display:none}
+
 /* =================================================================
    RESPONSIVE — only affects max-width: 768px
    Desktop (> 768px) is completely unchanged
@@ -226,7 +265,7 @@ section[id]{scroll-margin-top:80px}
   .nav-logo         { font-size: 18px; }
 
   /* ── Hero stage ───────────────────────────────────────────────── */
-  .hero-stage  { height: 460px; }
+  .hero-stage  { height: 420px; }
   .hero-menu   { display: none; }
 
   .hero-info {
@@ -234,14 +273,16 @@ section[id]{scroll-margin-top:80px}
     bottom: 20px;
     flex-direction: column;
     align-items: flex-start;
-    gap: 10px;
+    gap: 8px;
   }
-  .hero-info h1    { font-size: 30px; }
-  .hero-specs      { gap: 20px; }
-  .spec .v         { font-size: 17px; }
+  /* Task 1: slightly reduce hero offer size on mobile */
+  .hero-info .small  { font-size: 13px; }
+  .hero-info h1      { font-size: 24px; }
+  .hero-specs        { gap: 16px; }
+  .spec .v           { font-size: 15px; }
 
-  /* arrows: reposition from bottom-of-hero to top of stage */
-  .hero-arrows { bottom: auto; top: 14px; }
+  /* Task 6: hero arrows — move to lower-center of stage, not top */
+  .hero-arrows { bottom: auto; top: 180px; }
 
   /* ── Hero details strip ───────────────────────────────────────── */
   .hero-details {
@@ -340,4 +381,42 @@ section[id]{scroll-margin-top:80px}
 
   /* ── Buttons ──────────────────────────────────────────────────── */
   .btn { font-size: 15px; gap: 12px; padding: 11px 18px; }
+
+  /* ── Mobile sticky CTA ────────────────────────────────────────── */
+  .sticky-cta {
+    display: flex;
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    z-index: 150;
+    padding: 10px 16px 20px;
+    background: linear-gradient(to top, rgba(255,255,255,0.97) 55%, rgba(255,255,255,0));
+    pointer-events: none;
+  }
+  .sticky-cta button {
+    flex: 1;
+    pointer-events: all;
+    background: var(--accent);
+    color: #fff;
+    border-radius: var(--radius-pill);
+    padding: 14px 20px;
+    font-family: var(--sans);
+    font-size: 16px;
+    font-weight: 400;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+    box-shadow: 0 6px 20px rgba(10,15,20,0.2);
+    transition: filter .15s, transform .15s;
+  }
+  .sticky-cta button:active { transform: scale(0.98); }
+
+  /* add padding so content isn't hidden behind the sticky bar */
+  .page { padding-bottom: 72px; }
+
+  /* ── Modal on mobile ─────────────────────────────────────────── */
+  .modal-box { padding: 28px 20px; }
+  .modal-head h3 { font-size: 20px; }
 }

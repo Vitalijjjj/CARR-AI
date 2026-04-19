@@ -1,6 +1,7 @@
 import { useState, useMemo } from 'react'
 import { useParams, Link } from 'react-router-dom'
 import { CRUZE_CARS } from './cars-data'
+import Modal from './Modal'
 import './CarPage.css'
 
 const ICON_SEAT    = `<svg viewBox="0 0 40 40" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M12 8h12c2 0 3 1 3 3v9H9v-9c0-2 1-3 3-3Z"/><path d="M9 20v8h18v-8"/><path d="M7 28h22"/></svg>`
@@ -41,6 +42,7 @@ export default function CarPage() {
   const car = CRUZE_CARS.find(c => c.id === id) || CRUZE_CARS[0]
 
   const [activeTab, setActiveTab] = useState(0)
+  const [modal,     setModal]     = useState(false)
 
   const similar = useMemo(() => {
     const others = CRUZE_CARS.filter(c => c.id !== car.id)
@@ -98,7 +100,7 @@ export default function CarPage() {
               </div>
 
               <div className="cta-row">
-                <button className="btn btn-primary">
+                <button className="btn btn-primary" onClick={() => setModal(true)}>
                   Book now
                   <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
                     <path d="m9 5 7 7-7 7"/>
@@ -334,7 +336,7 @@ export default function CarPage() {
                 </div>
               </div>
               <div className="footer-meta">
-                <div>Powered by <a href="#">Webflow</a>, Designed by <a href="#">AM Templates</a></div>
+                <div>Designed by <a href="#">AM Templates</a></div>
                 <div className="footer-socials">
                   <a href="#">
                     <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.75">
@@ -357,6 +359,19 @@ export default function CarPage() {
           </div>
         </div>
       </footer>
+
+      {/* MOBILE STICKY CTA */}
+      <div className="sticky-cta">
+        <button onClick={() => setModal(true)}>
+          Submit a request
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+            <path d="m9 5 7 7-7 7"/>
+          </svg>
+        </button>
+      </div>
+
+      {/* MODAL */}
+      {modal && <Modal onClose={() => setModal(false)} />}
 
     </div>
   )

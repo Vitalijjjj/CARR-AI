@@ -3,6 +3,7 @@ import { Link } from 'react-router-dom'
 import gsap from 'gsap'
 import { ScrollTrigger } from 'gsap/ScrollTrigger'
 import { CRUZE_CARS } from './cars-data'
+import Modal from './Modal'
 import './App.css'
 
 gsap.registerPlugin(ScrollTrigger)
@@ -115,8 +116,18 @@ export default function App() {
   const [filter,   setFilter]     = useState('all')
   const [tweaks,   setTweaks]     = useState({ ...TWEAK_DEFAULTS })
   const [editMode, setEditMode]   = useState(false)
+  const [modal,    setModal]      = useState(false)
+  const [srch,     setSrch]       = useState({ open: false, query: '' })
 
   const cardCtxRef = useRef(null)
+
+  const searchResults = srch.query.trim().length > 1
+    ? CRUZE_CARS.filter(c =>
+        [c.name, c.tagline, c.category, c.engine, c.hp].some(
+          f => String(f).toLowerCase().includes(srch.query.toLowerCase())
+        )
+      )
+    : []
 
   function setHero(i) {
     setHeroIdxRaw((i + heroData.length) % heroData.length)
@@ -365,7 +376,7 @@ export default function App() {
           <div className="nav-logo">CRUZE</div>
           <div className="nav-right">
             <a href="#contact">Contact</a>
-            <button className="search" aria-label="Search">
+            <button className="search" aria-label="Search" onClick={() => setSrch({ open: true, query: '' })}>
               <svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" strokeWidth="1.75">
                 <circle cx="11" cy="11" r="7"/><path d="m20 20-3.5-3.5"/>
               </svg>
@@ -437,10 +448,10 @@ export default function App() {
                 <div className="sub">By Cruze Atelier</div>
               </div>
             </div>
-            <a className="btn btn-primary" style={{ alignSelf: 'flex-start', marginTop: '12px' }} href="#contact">
+            <button className="btn btn-primary" style={{ alignSelf: 'flex-start', marginTop: '12px' }} onClick={() => setModal(true)}>
               Approach Now
               <BtnArrow />
-            </a>
+            </button>
           </div>
         </div>
       </section>
@@ -576,10 +587,10 @@ export default function App() {
               <span className="eyebrow">Testimonials</span>
               <h2 className="h2" style={{ marginTop: '16px' }}>See What Our Clients<br/>Say About Their Rides</h2>
             </div>
-            <a className="btn btn-primary" href="#contact">
+            <button className="btn btn-primary" onClick={() => setModal(true)}>
               Book Test Drive
               <BtnArrow />
-            </a>
+            </button>
           </div>
 
           <div className="testi-grid">
@@ -711,7 +722,7 @@ export default function App() {
               </div>
 
               <div className="footer-meta">
-                <div>Powered by <a href="#">Webflow</a>, Designed by <a href="#">AM Templates</a></div>
+                <div>Designed by <a href="#">AM Templates</a></div>
                 <div className="footer-socials">
                   <a href="#" aria-label="Instagram">
                     <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.75">
@@ -743,6 +754,68 @@ export default function App() {
           </div>
         </div>
       </footer>
+
+      {/* MOBILE STICKY CTA */}
+      <div className="sticky-cta">
+        <button onClick={() => setModal(true)}>
+          Submit a request
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+            <path d="m9 5 7 7-7 7"/>
+          </svg>
+        </button>
+      </div>
+
+      {/* MODAL */}
+      {modal && <Modal onClose={() => setModal(false)} />}
+
+      {/* SEARCH OVERLAY */}
+      {srch.open && (
+        <div className="search-overlay" onClick={() => setSrch(p => ({ ...p, open: false }))}>
+          <button
+            className="search-overlay-close"
+            onClick={() => setSrch(p => ({ ...p, open: false }))}
+            aria-label="Close search"
+          >
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.2">
+              <path d="M18 6 6 18M6 6l12 12"/>
+            </svg>
+          </button>
+          <div className="search-box" onClick={e => e.stopPropagation()}>
+            <input
+              type="search"
+              autoFocus
+              placeholder="Search cars by name, brand, category…"
+              value={srch.query}
+              onChange={e => setSrch(p => ({ ...p, query: e.target.value }))}
+            />
+            <span className="search-box-icon">
+              <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" strokeWidth="1.75">
+                <circle cx="11" cy="11" r="7"/><path d="m20 20-3.5-3.5"/>
+              </svg>
+            </span>
+          </div>
+          <div className="search-results" onClick={e => e.stopPropagation()}>
+            {srch.query.trim().length > 1 && searchResults.length === 0 && (
+              <div className="search-empty">No cars found for "{srch.query}"</div>
+            )}
+            {searchResults.map(c => (
+              <Link
+                key={c.id}
+                className="search-result"
+                to={`/car/${c.id}`}
+                onClick={() => setSrch({ open: false, query: '' })}
+              >
+                <div className="search-result-img" style={{ backgroundImage: `url('${c.img}')` }} />
+                <div>
+                  <div className="search-result-name">{c.name}</div>
+                  <div className="search-result-tag">{c.tagline}</div>
+                </div>
+                <div className="search-result-price">${c.price}<span style={{ fontSize: 12, color: 'var(--muted)' }}>/day</span></div>
+              </Link>
+            ))}
+          </div>
+        </div>
+      )}
 
       {/* TWEAKS PANEL */}
       <div className={`tweaks-panel${editMode ? ' on' : ''}`}>
