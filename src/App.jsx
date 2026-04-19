@@ -1,4 +1,5 @@
 import { useState, useEffect, useRef } from 'react'
+import { Link } from 'react-router-dom'
 import gsap from 'gsap'
 import { ScrollTrigger } from 'gsap/ScrollTrigger'
 import { CRUZE_CARS } from './cars-data'
@@ -74,7 +75,7 @@ function BtnArrow() {
 
 function CarCard({ car }) {
   return (
-    <a className="mcard" href={`car.html?id=${car.id}`}>
+    <Link className="mcard" to={`/car/${car.id}`}>
       <div className="shot" style={{ backgroundImage: `url('${car.img}')` }} />
       <div>
         <div className="row-name">
@@ -101,7 +102,7 @@ function CarCard({ car }) {
           </div>
         </div>
       </div>
-    </a>
+    </Link>
   )
 }
 
@@ -421,7 +422,7 @@ export default function App() {
           <div className="left">
             <h3>Model Description</h3>
             <p>A refined expression of craftsmanship and engineering. Finished in factory pearl with an atelier-grade interior, every Cruze release is hand-selected for enthusiasts who expect more than just a car — they expect an instrument.</p>
-            <a className="more-info" href={`car.html?id=${hero.id}`}>More Info <span aria-hidden="true">→</span></a>
+            <Link className="more-info" to={`/car/${hero.id}`}>More Info <span aria-hidden="true">→</span></Link>
           </div>
           <div className="right">
             <div className="hero-prices">
