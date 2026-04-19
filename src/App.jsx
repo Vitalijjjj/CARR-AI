@@ -1,6 +1,10 @@
-import { useState, useEffect } from 'react'
+import { useState, useEffect, useRef } from 'react'
+import gsap from 'gsap'
+import { ScrollTrigger } from 'gsap/ScrollTrigger'
 import { CRUZE_CARS } from './cars-data'
 import './App.css'
+
+gsap.registerPlugin(ScrollTrigger)
 
 /* ------------------------------------------------------------------ */
 /* Static data                                                          */
@@ -18,7 +22,6 @@ const heroImages = [
   'assets/luxora-zenith.jpg',
 ]
 
-// keep injection markers so Claude Design can rewrite this block
 const TWEAK_DEFAULTS = /*EDITMODE-BEGIN*/{
   accent:  '#006be6',
   ink:     '#030303',
@@ -30,7 +33,7 @@ const TWEAK_DEFAULTS = /*EDITMODE-BEGIN*/{
 const FILTERS = ['all', 'business', 'family', 'adventure', 'wedding']
 
 /* ------------------------------------------------------------------ */
-/* SVG icon strings (injected via dangerouslySetInnerHTML)             */
+/* SVG icon strings                                                     */
 /* ------------------------------------------------------------------ */
 
 const ICON_SEAT    = `<svg viewBox="0 0 40 40" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M12 8h12c2 0 3 1 3 3v9H9v-9c0-2 1-3 3-3Z"/><path d="M9 20v8h18v-8"/><path d="M7 28h22"/></svg>`
@@ -94,11 +97,13 @@ export default function App() {
   const [tweaks,   setTweaks]     = useState({ ...TWEAK_DEFAULTS })
   const [editMode, setEditMode]   = useState(false)
 
+  const cardCtxRef = useRef(null)
+
   function setHero(i) {
     setHeroIdxRaw((i + heroData.length) % heroData.length)
   }
 
-  /* apply tweaks to CSS vars — mirrors original applyTweaks() */
+  /* ── Tweaks: apply CSS vars ───────────────────────────────────────── */
   useEffect(() => {
     const root = document.documentElement
     root.style.setProperty('--accent',    tweaks.accent)
@@ -109,7 +114,7 @@ export default function App() {
     document.querySelectorAll('.h2').forEach(h => { h.style.fontSize = tweaks.h2 + 'px' })
   }, [tweaks])
 
-  /* edit-mode postMessage bridge */
+  /* ── Edit-mode postMessage bridge ────────────────────────────────── */
   useEffect(() => {
     function onMessage(e) {
       const d = e.data
@@ -140,6 +145,156 @@ export default function App() {
     }
   }
 
+  /* ── HERO ANIMATION (fires once on page load) ────────────────────── */
+  useEffect(() => {
+    const ctx = gsap.context(() => {
+      // Set all hero elements to invisible before first paint
+      gsap.set(
+        ['.hero-info .small', '.hero-info h1', '.hero-specs .spec',
+         '.hero-details .left h3', '.hero-details .left p', '.more-info',
+         '.hero-prices .price-item', '.hero-details .right .btn'],
+        { opacity: 0, y: 24 }
+      )
+      gsap.set('.hero-menu',   { opacity: 0, x: 16 })
+      gsap.set('.hero-arrows', { opacity: 0, y: -12 })
+
+      // Staggered timeline — absolute position values (seconds) for control
+      gsap.timeline({ defaults: { ease: 'power3.out' } })
+        .to('.hero-info .small',          { opacity: 1, y: 0, duration: 0.6              }, 0.15)
+        .to('.hero-info h1',              { opacity: 1, y: 0, duration: 0.9              }, 0.28)
+        .to('.hero-specs .spec',          { opacity: 1, y: 0, duration: 0.65, stagger: 0.1 }, 0.52)
+        .to('.hero-menu',                 { opacity: 1, x: 0, duration: 0.7              }, 0.35)
+        .to('.hero-arrows',               { opacity: 1, y: 0, duration: 0.55             }, 0.65)
+        .to('.hero-details .left h3',     { opacity: 1, y: 0, duration: 0.70             }, 0.60)
+        .to('.hero-details .left p',      { opacity: 1, y: 0, duration: 0.70             }, 0.72)
+        .to('.more-info',                 { opacity: 1, y: 0, duration: 0.65             }, 0.82)
+        .to('.hero-prices .price-item',   { opacity: 1, y: 0, duration: 0.65, stagger: 0.12 }, 0.62)
+        .to('.hero-details .right .btn',  { opacity: 1, y: 0, duration: 0.65             }, 0.88)
+    })
+
+    return () => ctx.revert()
+  }, [])
+
+  /* ── SCROLL REVEALS (all sections except car cards) ──────────────── */
+  useEffect(() => {
+    const ctx = gsap.context(() => {
+
+      // ── About ───────────────────────────────────────────────────────
+      gsap.set('.about-left > *, .about-right > h2.h2', { opacity: 0, y: 28 })
+      gsap.set('.about-body > *', { opacity: 0, y: 28 })
+      ScrollTrigger.create({
+        trigger: '.about', start: 'top 80%', once: true,
+        onEnter: () => {
+          gsap.to('.about-left > *',      { opacity: 1, y: 0, duration: 0.75, stagger: 0.12, ease: 'power2.out' })
+          gsap.to('.about-right > h2.h2', { opacity: 1, y: 0, duration: 0.75, ease: 'power2.out', delay: 0.10 })
+          gsap.to('.about-body > *',      { opacity: 1, y: 0, duration: 0.75, stagger: 0.12, ease: 'power2.out', delay: 0.22 })
+        },
+      })
+
+      // ── Models title + filters (cards handled separately) ───────────
+      gsap.set('.models-title, .models-filters', { opacity: 0, y: 24 })
+      ScrollTrigger.create({
+        trigger: '.models', start: 'top 80%', once: true,
+        onEnter: () => {
+          gsap.to('.models-title',   { opacity: 1, y: 0, duration: 0.70, ease: 'power2.out' })
+          gsap.to('.models-filters', { opacity: 1, y: 0, duration: 0.70, ease: 'power2.out', delay: 0.10 })
+        },
+      })
+
+      // ── Brands ──────────────────────────────────────────────────────
+      gsap.set('.brands-left .eyebrow, .brands-left h2.h2, .brands-left .btn', { opacity: 0, y: 24 })
+      gsap.set('.brand-tile', { opacity: 0, y: 28, scale: 1.03 })
+      ScrollTrigger.create({
+        trigger: '.brands', start: 'top 80%', once: true,
+        onEnter: () => {
+          gsap.to('.brands-left .eyebrow', { opacity: 1, y: 0, duration: 0.65, ease: 'power2.out' })
+          gsap.to('.brands-left h2.h2',    { opacity: 1, y: 0, duration: 0.70, ease: 'power2.out', delay: 0.08 })
+          gsap.to('.brands-left .btn',     { opacity: 1, y: 0, duration: 0.65, ease: 'power2.out', delay: 0.16 })
+          gsap.to('.brand-tile',           { opacity: 1, y: 0, scale: 1, duration: 0.80, stagger: 0.12, ease: 'power2.out', delay: 0.10 })
+        },
+      })
+
+      // ── Why ─────────────────────────────────────────────────────────
+      gsap.set('.why .eyebrow, .why h2.h2', { opacity: 0, y: 20 })
+      gsap.set('.why-cell', { opacity: 0, y: 30 })
+      ScrollTrigger.create({
+        trigger: '.why', start: 'top 80%', once: true,
+        onEnter: () => {
+          gsap.to('.why .eyebrow', { opacity: 1, y: 0, duration: 0.65, ease: 'power2.out' })
+          gsap.to('.why h2.h2',    { opacity: 1, y: 0, duration: 0.70, ease: 'power2.out', delay: 0.08 })
+          gsap.to('.why-cell',     { opacity: 1, y: 0, duration: 0.75, stagger: 0.12, ease: 'power2.out', delay: 0.15 })
+        },
+      })
+
+      // ── Testimonials ────────────────────────────────────────────────
+      gsap.set('.testi-head', { opacity: 0, y: 28 })
+      gsap.set('.testi-grid .showroom, .testi-grid .tcard', { opacity: 0, y: 30 })
+      ScrollTrigger.create({
+        trigger: '.testi', start: 'top 80%', once: true,
+        onEnter: () => {
+          gsap.to('.testi-head', { opacity: 1, y: 0, duration: 0.75, ease: 'power2.out' })
+          gsap.to('.testi-grid .showroom, .testi-grid .tcard', {
+            opacity: 1, y: 0, duration: 0.80, stagger: 0.07, ease: 'power2.out', delay: 0.15,
+          })
+        },
+      })
+
+      // ── Blog ────────────────────────────────────────────────────────
+      gsap.set('.blog-head',   { opacity: 0, y: 28 })
+      gsap.set('.blog-feat',   { opacity: 0, y: 20, scale: 1.03 })
+      gsap.set('.blog-item',   { opacity: 0, y: 28 })
+      gsap.set('.blog-browse', { opacity: 0, y: 20 })
+      ScrollTrigger.create({
+        trigger: '.blog', start: 'top 80%', once: true,
+        onEnter: () => {
+          gsap.to('.blog-head',   { opacity: 1, y: 0, duration: 0.75, ease: 'power2.out' })
+          gsap.to('.blog-feat',   { opacity: 1, y: 0, scale: 1, duration: 0.85, ease: 'power2.out', delay: 0.10 })
+          gsap.to('.blog-item',   { opacity: 1, y: 0, duration: 0.70, stagger: 0.10, ease: 'power2.out', delay: 0.10 })
+          gsap.to('.blog-browse', { opacity: 1, y: 0, duration: 0.65, ease: 'power2.out', delay: 0.30 })
+        },
+      })
+
+      // ── Footer ──────────────────────────────────────────────────────
+      gsap.set('.footer-top h2.h2, .footer-row, .footer-meta', { opacity: 0, y: 20 })
+      gsap.set('.footer-logo', { opacity: 0 })
+      ScrollTrigger.create({
+        trigger: '.footer', start: 'top 85%', once: true,
+        onEnter: () => {
+          gsap.to('.footer-top h2.h2', { opacity: 1, y: 0, duration: 0.80, ease: 'power2.out' })
+          gsap.to('.footer-row',       { opacity: 1, y: 0, duration: 0.75, ease: 'power2.out', delay: 0.12 })
+          gsap.to('.footer-meta',      { opacity: 1, y: 0, duration: 0.65, ease: 'power2.out', delay: 0.22 })
+          gsap.to('.footer-logo',      { opacity: 1,       duration: 0.90, ease: 'power3.out', delay: 0.10 })
+        },
+      })
+
+      ScrollTrigger.refresh()
+    })
+
+    return () => ctx.revert()
+  }, [])
+
+  /* ── CAR CARDS (re-animates whenever filter changes) ─────────────── */
+  useEffect(() => {
+    const raf = requestAnimationFrame(() => {
+      // Kill previous card tweens before re-animating new DOM nodes
+      if (cardCtxRef.current) cardCtxRef.current.revert()
+
+      const cards = gsap.utils.toArray('.mcard')
+      const shots = gsap.utils.toArray('.mcard .shot')
+      if (!cards.length) return
+
+      cardCtxRef.current = gsap.context(() => {
+        gsap.set(cards, { opacity: 0, y: 30 })
+        gsap.set(shots, { scale: 1.03 })
+        gsap.to(cards, { opacity: 1, y: 0,   duration: 0.70, stagger: 0.08, ease: 'power2.out', delay: 0.05 })
+        gsap.to(shots, { scale: 1,            duration: 0.85, stagger: 0.08, ease: 'power2.out', delay: 0.05 })
+      })
+    })
+
+    return () => cancelAnimationFrame(raf)
+  }, [filter])
+
+  /* ── Derived state ───────────────────────────────────────────────── */
   const visibleCars = CRUZE_CARS.filter(c => filter === 'all' || c.category === filter)
   const hero = heroData[heroIdx]
 
