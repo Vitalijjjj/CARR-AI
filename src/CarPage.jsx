@@ -83,7 +83,7 @@ export default function CarPage() {
           <div className="top-grid">
             <div
               className="big-image"
-              style={{ backgroundImage: `url('${car.img}')` }}
+              style={{ backgroundImage: `url('/${car.img}')` }}
             />
 
             <div className="info">
@@ -183,7 +183,7 @@ export default function CarPage() {
               <div
                 key={i}
                 className="gphoto"
-                style={{ backgroundImage: `url('${g}')` }}
+                style={{ backgroundImage: `url('/${g}')` }}
               />
             ))}
           </div>
@@ -243,7 +243,7 @@ export default function CarPage() {
                 <div className="fb-title">Perfect ride for my business trip!</div>
                 <p className="fb-text">I needed a reliable car for my client meetings, and this vehicle exceeded my expectations. The booking process was seamless, and the car was in excellent condition. Highly recommended for any traveller!</p>
                 <div className="fb-author">
-                  <div className="fb-avatar" style={{ backgroundImage: "url('assets/customer-2.jpg')" }} />
+                  <div className="fb-avatar" style={{ backgroundImage: "url('/assets/customer-2.jpg')" }} />
                   <div className="name">Mark Stevens</div>
                 </div>
               </div>
@@ -252,7 +252,7 @@ export default function CarPage() {
                 <div className="fb-title">Comfortable and affordable!</div>
                 <p className="fb-text">I rented a car for a weekend trip, and the service rocked. For an economy car, the drive was refined, and the fuel usage was frugal. Definitely the car to go to at this price point again.</p>
                 <div className="fb-author">
-                  <div className="fb-avatar" style={{ backgroundImage: "url('assets/customer-1.jpg')" }} />
+                  <div className="fb-avatar" style={{ backgroundImage: "url('/assets/customer-1.jpg')" }} />
                   <div className="name">Emma Johnson</div>
                 </div>
               </div>
@@ -268,7 +268,7 @@ export default function CarPage() {
           <div className="similar-grid">
             {similar.map(c => (
               <Link key={c.id} className="mcard" to={`/car/${c.id}`}>
-                <div className="shot" style={{ backgroundImage: `url('${c.img}')` }} />
+                <div className="shot" style={{ backgroundImage: `url('/${c.img}')` }} />
                 <div>
                   <div className="row-name">
                     <div>
