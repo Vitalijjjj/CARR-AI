@@ -198,3 +198,146 @@
 
 /* ===== scroll offsets ===== */
 section[id]{scroll-margin-top:80px}
+
+/* =================================================================
+   RESPONSIVE — only affects max-width: 768px
+   Desktop (> 768px) is completely unchanged
+   ================================================================= */
+@media (max-width: 768px) {
+
+  /* ── Base layout ──────────────────────────────────────────────── */
+  html, body { overflow-x: hidden; }
+  .page  { width: 100%; }
+  .wrap  { padding: 0 20px; }
+  .wrap-inner { padding: 0 20px; }
+
+  /* ── Display headings ─────────────────────────────────────────── */
+  .h2 { font-size: 26px; }
+
+  /* ── Nav ──────────────────────────────────────────────────────── */
+  .nav-inner {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 14px 20px;
+  }
+  .nav-left         { display: none; }
+  .nav-right a      { display: none; }
+  .nav-logo         { font-size: 18px; }
+
+  /* ── Hero stage ───────────────────────────────────────────────── */
+  .hero-stage  { height: 460px; }
+  .hero-menu   { display: none; }
+
+  .hero-info {
+    padding: 0 20px;
+    bottom: 20px;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 10px;
+  }
+  .hero-info h1    { font-size: 30px; }
+  .hero-specs      { gap: 20px; }
+  .spec .v         { font-size: 17px; }
+
+  /* arrows: reposition from bottom-of-hero to top of stage */
+  .hero-arrows { bottom: auto; top: 14px; }
+
+  /* ── Hero details strip ───────────────────────────────────────── */
+  .hero-details {
+    grid-template-columns: 1fr;
+    padding: 24px 20px 32px;
+    gap: 20px;
+  }
+  .hero-details .left { max-width: 100%; }
+  .hero-prices        { flex-wrap: wrap; gap: 12px; }
+  .more-info          { font-size: 15px; }
+
+  /* ── About ────────────────────────────────────────────────────── */
+  .about       { padding: 48px 0 52px; }
+  .about-grid  { grid-template-columns: 1fr; gap: 28px; }
+  .about-left  { min-height: auto; gap: 12px; }
+  .metric-num  { font-size: 52px; }
+  .metric-num sup { font-size: 30px; }
+  .about-right h2  { margin-bottom: 20px; }
+  .about-body  { grid-template-columns: 1fr; gap: 20px; }
+  .about-thumb { height: 180px; }
+
+  /* ── Models ───────────────────────────────────────────────────── */
+  .models          { padding: 52px 0; }
+  .models-title h2 { font-size: 44px; }
+  .models-grid     { grid-template-columns: 1fr; }
+  .models-empty    { grid-column: span 1; }
+  .mcard           { padding: 20px; gap: 16px; }
+  .mcard .shot     { height: 200px; }
+
+  /* ── Brands ───────────────────────────────────────────────────── */
+  .brands      { padding: 20px 0 52px; }
+  .brands-grid { grid-template-columns: 1fr; gap: 28px; }
+  .brands-right {
+    grid-template-columns: 1fr 1fr;
+    grid-template-rows: 160px 160px;
+    height: auto;
+  }
+  /* third tile (the wide 2fr one) spans both columns */
+  .brands-right .brand-tile:nth-child(3) { grid-column: span 2; }
+
+  /* ── Why Cruze ────────────────────────────────────────────────── */
+  .why       { padding: 44px 0; }
+  .why h2    { margin: 12px 0 32px; }
+  .why-grid  { grid-template-columns: 1fr; gap: 28px; }
+  .why-cell  { padding: 0; }
+
+  /* ── Testimonials ─────────────────────────────────────────────── */
+  .testi      { padding: 44px 0; }
+  .testi-head { grid-template-columns: 1fr; gap: 16px; }
+  .testi-head .btn { align-self: flex-start; }
+  /* flatten the 12-col grid into a single column */
+  .testi-grid {
+    display: flex;
+    flex-direction: column;
+    gap: 14px;
+  }
+  .showroom                         { height: 200px; }
+  .tcard, .tcard.wide, .tcard.small {
+    grid-column: unset;
+    grid-row: unset;
+    height: auto;
+    min-height: 0;
+  }
+
+  /* ── Blog ─────────────────────────────────────────────────────── */
+  .blog       { padding: 44px 0; }
+  .blog-grid  { grid-template-columns: 1fr; }
+  .blog-feat  { min-height: 260px; }
+  .blog-feat h3 { font-size: 20px; margin-top: 90px; }
+  .blog-item  { padding: 16px 20px; }
+  .blog-item h4 { font-size: 17px; }
+
+  /* ── Footer ───────────────────────────────────────────────────── */
+  .footer { padding: 40px 20px 0; }
+  .footer-top {
+    grid-template-columns: 1fr;
+    gap: 28px;
+    padding-bottom: 36px;
+  }
+  .footer-row {
+    grid-template-columns: 1fr 1fr;
+    gap: 20px 16px;
+  }
+  .footer-cta {
+    grid-column: span 2;
+    align-items: flex-start;
+  }
+  .footer-meta {
+    flex-direction: column;
+    gap: 16px;
+    text-align: center;
+    padding: 20px 0 28px;
+  }
+  .footer-logo           { margin-top: 32px; }
+  .footer-logo .word     { font-size: 27vw; margin-bottom: -3vw; }
+
+  /* ── Buttons ──────────────────────────────────────────────────── */
+  .btn { font-size: 15px; gap: 12px; padding: 11px 18px; }
+}
