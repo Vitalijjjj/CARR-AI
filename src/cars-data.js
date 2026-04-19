@@ -1,4 +1,4 @@
-export const CRUZE_CARS = [
+export const OLIMP_CARS = [
   {
     id: "luxora-zenith",
     name: "Luxora Zenith",

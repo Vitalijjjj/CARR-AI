@@ -1,6 +1,6 @@
 import { useState, useMemo } from 'react'
 import { useParams, Link } from 'react-router-dom'
-import { CRUZE_CARS } from './cars-data'
+import { OLIMP_CARS } from './cars-data'
 import Modal from './Modal'
 import './CarPage.css'
 
@@ -39,14 +39,14 @@ const TERMS = [
 
 export default function CarPage() {
   const { id } = useParams()
-  const car = CRUZE_CARS.find(c => c.id === id) || CRUZE_CARS[0]
+  const car = OLIMP_CARS.find(c => c.id === id) || OLIMP_CARS[0]
 
   const [activeTab, setActiveTab] = useState(0)
   const [modal,     setModal]     = useState(false)
   const [menuOpen,  setMenuOpen]  = useState(false)
 
   const similar = useMemo(() => {
-    const others = CRUZE_CARS.filter(c => c.id !== car.id)
+    const others = OLIMP_CARS.filter(c => c.id !== car.id)
     const shuffled = [...others].sort(() => Math.random() - 0.5)
     return shuffled.slice(0, 2)
   }, [car.id])
@@ -71,7 +71,7 @@ export default function CarPage() {
             <Link to="/#blog">Blog</Link>
             <Link to="/#contact">Contact</Link>
           </div>
-          <Link className="nav-logo" to="/">CRUZE</Link>
+          <Link className="nav-logo" to="/">OLIMP CARS</Link>
           <div className="nav-right">
             <Link to="/#contact">Contact</Link>
           </div>
@@ -82,7 +82,7 @@ export default function CarPage() {
       {menuOpen && (
         <div className="mobile-menu">
           <div className="mobile-menu-head">
-            <Link className="mobile-menu-logo" to="/" onClick={() => setMenuOpen(false)}>CRUZE</Link>
+            <Link className="mobile-menu-logo" to="/" onClick={() => setMenuOpen(false)}>OLIMP CARS</Link>
             <button className="mobile-menu-close" aria-label="Close" onClick={() => setMenuOpen(false)}>
               <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.2">
                 <path d="M18 6 6 18M6 6l12 12"/>
@@ -337,7 +337,7 @@ export default function CarPage() {
       <footer className="car-footer">
         <div className="footer-inner">
           <div className="footer-top">
-            <h2>Drive Your Dreams with<br/>the Cruze Elite Luxury!</h2>
+            <h2>Drive Your Dreams with<br/>the Olimp Cars Elite Luxury!</h2>
             <div className="footer-info">
               <div className="footer-row">
                 <div className="footer-col">
@@ -353,7 +353,7 @@ export default function CarPage() {
                   <a href="#">Changelog</a>
                 </div>
                 <div className="footer-col">
-                  <a href="#">Info@Cruze.Com</a>
+                  <a href="#">Info@OlimpCars.Com</a>
                   <a href="#">+1 (123) 456-7890</a>
                   <a href="#">Miami, Florida</a>
                   <a href="#">Tampa, Florida</a>

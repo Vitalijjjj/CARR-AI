@@ -2,7 +2,7 @@ import { useState, useEffect, useRef } from 'react'
 import { Link } from 'react-router-dom'
 import gsap from 'gsap'
 import { ScrollTrigger } from 'gsap/ScrollTrigger'
-import { CRUZE_CARS } from './cars-data'
+import { OLIMP_CARS } from './cars-data'
 import Modal from './Modal'
 import './App.css'
 
@@ -123,7 +123,7 @@ export default function App() {
   const cardCtxRef = useRef(null)
 
   const searchResults = srch.query.trim().length > 1
-    ? CRUZE_CARS.filter(c =>
+    ? OLIMP_CARS.filter(c =>
         [c.name, c.tagline, c.category, c.engine, c.hp].some(
           f => String(f).toLowerCase().includes(srch.query.toLowerCase())
         )
@@ -358,7 +358,7 @@ export default function App() {
   }, [filter])
 
   /* ── Derived state ───────────────────────────────────────────────── */
-  const visibleCars = CRUZE_CARS.filter(c => filter === 'all' || c.category === filter)
+  const visibleCars = OLIMP_CARS.filter(c => filter === 'all' || c.category === filter)
   const hero = heroData[heroIdx]
 
   return (
@@ -379,7 +379,7 @@ export default function App() {
             <a href="#blog">Blog</a>
             <a href="#contact">Contact</a>
           </div>
-          <Link className="nav-logo" to="/">CRUZE</Link>
+          <Link className="nav-logo" to="/">OLIMP CARS</Link>
           <div className="nav-right">
             <a href="#contact">Contact</a>
             <button className="search" aria-label="Search" onClick={() => setSrch({ open: true, query: '' })}>
@@ -395,7 +395,7 @@ export default function App() {
       {menuOpen && (
         <div className="mobile-menu">
           <div className="mobile-menu-head">
-            <Link className="mobile-menu-logo" to="/" onClick={() => setMenuOpen(false)}>CRUZE</Link>
+            <Link className="mobile-menu-logo" to="/" onClick={() => setMenuOpen(false)}>OLIMP CARS</Link>
             <button className="mobile-menu-close" aria-label="Close" onClick={() => setMenuOpen(false)}>
               <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.2">
                 <path d="M18 6 6 18M6 6l12 12"/>
@@ -465,7 +465,7 @@ export default function App() {
         <div className="hero-details wrap-inner">
           <div className="left">
             <h3>Model Description</h3>
-            <p>A refined expression of craftsmanship and engineering. Finished in factory pearl with an atelier-grade interior, every Cruze release is hand-selected for enthusiasts who expect more than just a car — they expect an instrument.</p>
+            <p>A refined expression of craftsmanship and engineering. Finished in factory pearl with an atelier-grade interior, every Olimp Cars release is hand-selected for enthusiasts who expect more than just a car — they expect an instrument.</p>
             <Link className="more-info" to={`/car/${hero.id}`}>More Info <span aria-hidden="true">→</span></Link>
           </div>
           <div className="right">
@@ -478,7 +478,7 @@ export default function App() {
               <div className="price-item" style={{ textAlign: 'right' }}>
                 <div className="lbl">Engine</div>
                 <div className="val">6.5 L V12</div>
-                <div className="sub">By Cruze Atelier</div>
+                <div className="sub">By Olimp Cars Atelier</div>
               </div>
             </div>
             <button className="btn btn-primary" style={{ alignSelf: 'flex-start', marginTop: '12px' }} onClick={() => setModal(true)}>
@@ -501,12 +501,12 @@ export default function App() {
               </div>
             </div>
             <div className="about-right">
-              <h2 className="h2">Discover Cruze Excellence, Where Elite<br/>Cars Meet Your Passion and Precision in<br/>Every Deal You Make!</h2>
+              <h2 className="h2">Discover Olimp Cars Excellence, Where Elite<br/>Cars Meet Your Passion and Precision in<br/>Every Deal You Make!</h2>
               <div className="about-body">
                 <div className="small">Find top luxury cars fast!</div>
                 <div className="about-thumb" style={{ backgroundImage: "url('assets/about-car.jpg')" }} />
                 <div>
-                  <p>Cruze curates a collection of the world's most desirable machines. From track-ready supercars to grand tourers, every listing is vetted by our specialists and delivered with the paperwork, warranty and concierge you deserve.</p>
+                  <p>Olimp Cars curates a collection of the world's most desirable machines. From track-ready supercars to grand tourers, every listing is vetted by our specialists and delivered with the paperwork, warranty and concierge you deserve.</p>
                   <a className="btn btn-primary learn" href="#models">
                     Learn More
                     <BtnArrow />
@@ -575,8 +575,8 @@ export default function App() {
       <section className="why">
         <div className="wrap">
           <div style={{ textAlign: 'center' }}>
-            <span className="eyebrow">Why Cruze?</span>
-            <h2 className="h2 h2-center">Why Choose Cruze for Your<br/>Luxury Journey</h2>
+            <span className="eyebrow">Why Olimp Cars?</span>
+            <h2 className="h2 h2-center">Why Choose Olimp Cars for Your<br/>Luxury Journey</h2>
           </div>
           <div className="why-grid">
             <div className="why-cell">
@@ -587,7 +587,7 @@ export default function App() {
                 </svg>
               </div>
               <h3>Prime Warranty</h3>
-              <p>Every model ships with full manufacturer coverage and a Cruze-backed concierge warranty for peace of mind.</p>
+              <p>Every model ships with full manufacturer coverage and an Olimp Cars-backed concierge warranty for peace of mind.</p>
             </div>
             <div className="why-cell">
               <div className="why-icon">
@@ -606,7 +606,7 @@ export default function App() {
                 </svg>
               </div>
               <h3>Smart Trade-In</h3>
-              <p>Get a market-leading valuation on your current ride, then apply it instantly to your next Cruze acquisition.</p>
+              <p>Get a market-leading valuation on your current ride, then apply it instantly to your next Olimp Cars acquisition.</p>
             </div>
           </div>
         </div>
@@ -630,7 +630,7 @@ export default function App() {
             <div className="showroom" style={{ backgroundImage: "url('assets/testimonial-showroom1.jpg')" }} />
 
             <div className="tcard wide">
-              <p className="quote">"Cruze made buying my McLaren effortless with Easy Financing. The Prime Warranty ensures I drive with total confidence on every thrilling journey!"</p>
+              <p className="quote">"Olimp Cars made buying my McLaren effortless with Easy Financing. The Prime Warranty ensures I drive with total confidence on every thrilling journey!"</p>
               <div className="tcust">
                 <div className="avatar" style={{ backgroundImage: "url('assets/customer-1.jpg')" }} />
                 <div><div className="name">Alex Reed</div><div className="loc">New York</div></div>
@@ -638,7 +638,7 @@ export default function App() {
             </div>
 
             <div className="tcard small">
-              <p className="quote">"Smart Trade-In at Cruze was fair. Loving my new Lamborghini!"</p>
+              <p className="quote">"Smart Trade-In at Olimp Cars was fair. Loving my new Lamborghini!"</p>
               <div className="tcust">
                 <div className="avatar" style={{ backgroundImage: "url('assets/customer-2.jpg')" }} />
                 <div><div className="name">Mark Lane</div><div className="loc">Florida</div></div>
@@ -646,7 +646,7 @@ export default function App() {
             </div>
 
             <div className="tcard small">
-              <p className="quote">"The Cruze team simplified financing for my Ferrari with ease!"</p>
+              <p className="quote">"The Olimp Cars team simplified financing for my Ferrari with ease!"</p>
               <div className="tcust">
                 <div className="avatar" style={{ backgroundImage: "url('assets/customer-3.jpg')" }} />
                 <div><div className="name">Luke Nash</div><div className="loc">Illinois</div></div>
@@ -654,7 +654,7 @@ export default function App() {
             </div>
 
             <div className="tcard wide">
-              <p className="quote">"Cruze's Smart Trade-In valued my car perfectly. Exceptional service — now I love my dream Mercedes!"</p>
+              <p className="quote">"Olimp Cars' Smart Trade-In valued my car perfectly. Exceptional service — now I love my dream Mercedes!"</p>
               <div className="tcust">
                 <div className="avatar" style={{ backgroundImage: "url('assets/customer-1.jpg')" }} />
                 <div><div className="name">Paul Gray</div><div className="loc">Texas</div></div>
@@ -672,7 +672,7 @@ export default function App() {
           <div className="blog-head">
             <span className="eyebrow">Blog Posts</span>
             <h2 className="h2 h2-center" style={{ marginTop: '12px' }}>Our Latest Posts</h2>
-            <p>Inside looks at fresh arrivals, market movement and the craft behind every Cruze acquisition.</p>
+            <p>Inside looks at fresh arrivals, market movement and the craft behind every Olimp Cars acquisition.</p>
           </div>
 
           <div className="blog-grid">
@@ -690,7 +690,7 @@ export default function App() {
               <div className="blog-item">
                 <div className="meta">
                   <span className="tag-chip" style={{ background: '#E0E3E6' }}>Events</span>
-                  <h4>Exciting Cruze 2025 Model<br/>Launch Event Highlights</h4>
+                  <h4>Exciting Olimp Cars 2025 Model<br/>Launch Event Highlights</h4>
                 </div>
                 <span className="r">4 min read</span>
               </div>
@@ -724,7 +724,7 @@ export default function App() {
       <footer className="footer" id="contact">
         <div className="footer-inner">
           <div className="footer-top">
-            <h2 className="h2">Drive Your Dreams with<br/>the Cruze Elite Luxury!</h2>
+            <h2 className="h2">Drive Your Dreams with<br/>the Olimp Cars Elite Luxury!</h2>
             <div className="footer-info">
               <div className="footer-row">
                 <div className="footer-col">
@@ -740,7 +740,7 @@ export default function App() {
                   <a href="#">Changelog</a>
                 </div>
                 <div className="footer-col">
-                  <a href="#">Info@Cruze.Com</a>
+                  <a href="#">Info@OlimpCars.Com</a>
                   <a href="#">+1 (123) 456-7890</a>
                   <a href="#">Miami, Florida</a>
                   <a href="#">Tampa, Florida</a>
@@ -783,7 +783,7 @@ export default function App() {
           </div>
 
           <div className="footer-logo">
-            <div className="word">CRUZE</div>
+            <div className="word">OLIMP CARS</div>
           </div>
         </div>
       </footer>
