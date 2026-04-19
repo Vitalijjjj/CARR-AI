@@ -7,6 +7,24 @@ import './App.css'
 gsap.registerPlugin(ScrollTrigger)
 
 /* ------------------------------------------------------------------ */
+/* Counter utilities                                                    */
+/* ------------------------------------------------------------------ */
+
+// Parses "10 KM" → { prefix:"", num:10, suffix:" KM", decimals:0 }
+// Parses "6.5 L" → { prefix:"", num:6.5, suffix:" L", decimals:1 }
+function parseCounter(text) {
+  const m = text.trim().match(/^([^0-9]*)([0-9]+\.?[0-9]*)(.*)$/)
+  if (!m) return null
+  const decimals = m[2].includes('.') ? m[2].split('.')[1].length : 0
+  return { prefix: m[1], num: parseFloat(m[2]), suffix: m[3], decimals }
+}
+
+function formatCounter(val, { prefix, suffix, decimals }) {
+  const str = decimals > 0 ? val.toFixed(decimals) : Math.round(val).toString()
+  return prefix + str + suffix
+}
+
+/* ------------------------------------------------------------------ */
 /* Static data                                                          */
 /* ------------------------------------------------------------------ */
 
@@ -170,6 +188,22 @@ export default function App() {
         .to('.more-info',                 { opacity: 1, y: 0, duration: 0.65             }, 0.82)
         .to('.hero-prices .price-item',   { opacity: 1, y: 0, duration: 0.65, stagger: 0.12 }, 0.62)
         .to('.hero-details .right .btn',  { opacity: 1, y: 0, duration: 0.65             }, 0.88)
+
+      // Counter for each hero spec value — starts in sync with the fade-in stagger (t=0.52)
+      document.querySelectorAll('.hero-specs .spec .v').forEach((el, i) => {
+        const parsed = parseCounter(el.textContent)
+        if (!parsed) return
+        // Pre-set to "0 KM" etc. while element is still opacity:0, so there's no flash
+        el.textContent = formatCounter(0, parsed)
+        const proxy = { val: 0 }
+        gsap.to(proxy, {
+          val: parsed.num,
+          duration: 1.5,
+          delay: 0.52 + i * 0.1, // mirrors the specs stagger offset
+          ease: 'power2.out',
+          onUpdate: () => { el.textContent = formatCounter(proxy.val, parsed) },
+        })
+      })
     })
 
     return () => ctx.revert()
@@ -188,6 +222,22 @@ export default function App() {
           gsap.to('.about-left > *',      { opacity: 1, y: 0, duration: 0.75, stagger: 0.12, ease: 'power2.out' })
           gsap.to('.about-right > h2.h2', { opacity: 1, y: 0, duration: 0.75, ease: 'power2.out', delay: 0.10 })
           gsap.to('.about-body > *',      { opacity: 1, y: 0, duration: 0.75, stagger: 0.12, ease: 'power2.out', delay: 0.22 })
+
+          // Counter for "550+" — animate only the text node, leaving <sup>+</sup> intact
+          const metricEl = document.querySelector('.metric-num')
+          if (metricEl) {
+            const textNode = [...metricEl.childNodes].find(n => n.nodeType === Node.TEXT_NODE)
+            if (textNode) {
+              const proxy = { val: 0 }
+              gsap.to(proxy, {
+                val: 550,
+                duration: 2,
+                delay: 0.12, // matches the stagger offset for the second .about-left child
+                ease: 'power2.out',
+                onUpdate: () => { textNode.textContent = Math.round(proxy.val) },
+              })
+            }
+          }
         },
       })
 
