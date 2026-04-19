@@ -251,7 +251,7 @@ section[id]{scroll-margin-top:80px}
   .wrap-inner { padding: 0 20px; }
 
   /* ── Display headings ─────────────────────────────────────────── */
-  .h2 { font-size: 26px; }
+  .h2 { font-size: 20px; }
 
   /* ── Nav ──────────────────────────────────────────────────────── */
   .nav-inner {
@@ -276,10 +276,10 @@ section[id]{scroll-margin-top:80px}
     gap: 8px;
   }
   /* Task 1: slightly reduce hero offer size on mobile */
-  .hero-info .small  { font-size: 13px; }
-  .hero-info h1      { font-size: 24px; }
-  .hero-specs        { gap: 16px; }
-  .spec .v           { font-size: 15px; }
+  .hero-info .small  { font-size: 12px; }
+  .hero-info h1      { font-size: 20px; }
+  .hero-specs        { gap: 14px; }
+  .spec .v           { font-size: 14px; }
 
   /* Task 6: hero arrows — move to lower-center of stage, not top */
   .hero-arrows { bottom: auto; top: 180px; }
@@ -306,7 +306,7 @@ section[id]{scroll-margin-top:80px}
 
   /* ── Models ───────────────────────────────────────────────────── */
   .models          { padding: 52px 0; }
-  .models-title h2 { font-size: 44px; }
+  .models-title h2 { font-size: 34px; }
   .models-grid     { grid-template-columns: 1fr; }
   .models-empty    { grid-column: span 1; }
   .mcard           { padding: 20px; gap: 16px; }

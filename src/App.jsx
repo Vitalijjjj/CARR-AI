@@ -722,7 +722,7 @@ export default function App() {
               </div>
 
               <div className="footer-meta">
-                <div>Designed by <a href="#">AM Templates</a></div>
+                <div style={{ opacity: 0 }} aria-hidden="true" />
                 <div className="footer-socials">
                   <a href="#" aria-label="Instagram">
                     <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.75">
